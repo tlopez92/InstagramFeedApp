@@ -1,0 +1,21 @@
+{
+  "profile": {
+    "username": "john_doe",
+    "avatar": "some_image_url"
+  },
+  "stories": [
+    {
+      "id": "1",
+      "title": "Story 1",
+      "image": "story1_image_url"
+    }
+  ],
+  "articles": [
+    {
+      "id": "1",
+      "title": "Article 1",
+      "content": "This is article 1",
+      "image": "article1_image_url"
+    }
+  ]
+}
