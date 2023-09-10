@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, FlatList, Image } from 'react-native';
-import initialData from '../instagram-feed/data';
+import data from '../instagram-feed/data';
 
 const FeedScreen: React.FC = () => {
 
@@ -11,24 +11,15 @@ const FeedScreen: React.FC = () => {
                 <Text style={{ marginLeft: 10 }}>{item.name}</Text>
             </View>
             <Image source={item.image} style={{ width: '100%', height: 200 }} />
+            <Text>Name: {item.name}</Text>
             <Text>Likes: {item.likes}</Text>
-            <Text>Comments: {item.commentCount}</Text>
-            <FlatList
-                data={item.comments}
-                keyExtractor={comment => comment.name}
-                renderItem={({ item: comment }) => (
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Text style={{ fontWeight: 'bold' }}>{comment.name}: </Text>
-                        <Text>{comment.text}</Text>
-                    </View>
-                )}
-            />
+            <Text>Comments: {item.comments}</Text>
         </View>
     );
 
     return (
         <FlatList
-            data={initialData.articles}
+            data={data.articles}
             keyExtractor={article => article.id}
             renderItem={renderArticleItem}
         />
