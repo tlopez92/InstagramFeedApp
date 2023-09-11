@@ -72,4 +72,5 @@ const FeedScreen: React.FC = () => {
         </SafeAreaView>
     );
 };
+
 export default FeedScreen;

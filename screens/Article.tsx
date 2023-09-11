@@ -1,4 +1,4 @@
-﻿import React from "react";
+﻿import React, {useState} from "react";
 import data from '../instagram-feed/data'
 import {
     StyleSheet,
@@ -18,58 +18,71 @@ const styles = StyleSheet.create({
     },
     header: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
         alignItems: 'center',
-        padding: 10,
+        justifyContent: 'space-between',
+        paddingHorizontal: 15,
         borderBottomWidth: 0.5,
-        borderBottomColor: '#ccc'
+        borderBottomColor: '#ccc',
+        height: 60
     },
     user: {
         flexDirection: 'row',
         alignItems: 'center',
     },
     avatar: {
-        width: 40,
-        height: 40,
-        borderRadius: 20,
-        marginRight: 10
+        width: 32,
+        height: 32,
+        borderRadius: 16
     },
     name: {
         fontWeight: 'bold',
         fontSize: 16,
-        color: '#333'
+        textAlign: 'center',
+        lineHeight: 14,
+        color: '#262626',
+        marginLeft: 12
     },
     image: {
         width: '100%',
-        height: 400,
-        resizeMode: 'cover'
+        height: null,
+        aspectRatio: 1,
+        resizeMode: 'contain',
+        backgroundColor: 'red',
+        margin: 0,
+        padding: 0
     },
     action: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        padding: 10
+        marginTop: 4,
+        paddingHorizontal: 8
     },
     actionLeft: {
         flexDirection: 'row',
+        justifyContent: 'space-between'
     },
     actionButton: {
-        marginRight: 10
+        marginRight: 8
     },
     info: {
-        padding: 10
+        paddingHorizontal: 15
     },
     likes: {
+        marginTop: 5,
         fontWeight: 'bold',
-        fontSize: 16,
-        marginBottom: 5
+        marginBottom: 5,
+        color: '#262626'
     },
-    commentCount: {
-        color: '#888'
+    comments: {
+        color: 'gray',
+        fontSize: 10,
+        marginBottom: 5
     }
 });
 
 export default function Article({item})
 {
+    const [likes, setLikes] = useState(data.articles.find(article => article.id === item.id).likes);
     return(
         <View style={styles.article}>
             <View style={styles.header}>
@@ -115,7 +128,7 @@ export default function Article({item})
                
                 <View style={styles.info}>
                     <Text style={styles.likes}>
-                        likes
+                        {likes} likes
                     </Text>
                     <Text style={styles.commentCount}>
                         View all comments

@@ -12,7 +12,6 @@ const styles = StyleSheet.create({
         height: 60,
         borderRadius: 30,
         borderWidth: 1,
-        borderColor: '#ccc',
         margin: 5,
         justifyContent: 'center',
         alignItems: 'center',
@@ -55,7 +54,7 @@ export default function Story({avatar, name, isCreateStory = false, isSeen})
                     ? "transparent"
                     : isSeen
                     ? "rgba(0,0,0,.0975)"
-                    : "#c73191,"
+                    : "#c73191"
                 }
                 ]}
                 >
