@@ -1,13 +1,28 @@
-import React from 'react';
-import {View, Text, FlatList, Image, StyleSheet, TouchableOpacity, SafeAreaView, StatusBar} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+    View,
+    Text,
+    FlatList,
+    Image,
+    StyleSheet,
+    TouchableOpacity,
+    SafeAreaView,
+    StatusBar,
+    Alert,
+    Platform
+} from 'react-native';
 import data from '../instagram-feed/data';
 import {Feather} from "@expo/vector-icons";
 import Stories from './Stories'
 import Constants from 'expo-constants'
 import Article from "./Article";
+import { Camera} from 'expo-camera';
 
 const FeedScreen: React.FC = () => {
     const INSTAGRAM_LOGO="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/640px-Instagram_logo.svg.png";
+    const [showCamera, setShowCamera] = useState(false);
+    const [cameraType, setCameraType] = useState(Camera.Constants.Type);
+    const [selectedImage, setSelectedImage] = useState<string | null>(null);
     const styles = StyleSheet.create({
         stories: {
             marginBottom: 20,
@@ -56,9 +71,14 @@ const FeedScreen: React.FC = () => {
             <StatusBar barStyle="dark-content" />
             <View style={styles.header}>
                 <TouchableOpacity>
-                    <Feather name="camera" size={24} />
+                    <Feather name="camera" size={24} 
+                    onPress={() => {
+                        setShowCamera(showCamera);
+                        setCameraType(Camera.Constants.Type)
+                    }}
+                    />
                 </TouchableOpacity>
-                <Image source={{uri: INSTAGRAM_LOGO}} style={styles.logo} />
+                <Image source={{ uri: INSTAGRAM_LOGO }} style={styles.logo} />
                 <TouchableOpacity>
                     <Feather name="send" size={24} />
                 </TouchableOpacity>
@@ -69,6 +89,17 @@ const FeedScreen: React.FC = () => {
                 renderItem={renderItem}
                 showsVerticalScrollIndicator={false}
             />
+            {
+                showCamera && (
+                    <Camera style={{flex: 1}} type={cameraType}>
+                        <View style={styles.cameraContainer}>
+                            <TouchableOpacity onPress={() => setShowCamera(false)}>
+                                <Feather name="x" size={24} color="white" />
+                            </TouchableOpacity>
+                        </View>
+                    </Camera>
+                )
+            }
         </SafeAreaView>
     );
 };

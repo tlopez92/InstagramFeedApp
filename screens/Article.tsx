@@ -1,4 +1,4 @@
-﻿import React, {useState} from "react";
+﻿import React, {useEffect, useState} from "react";
 import data from '../instagram-feed/data'
 import {
     StyleSheet,
@@ -9,7 +9,7 @@ import {
     TextInput,
     Alert
 } from "react-native";
-import {Feather} from "@expo/vector-icons";
+import {AntDesign, Feather} from "@expo/vector-icons";
 
 const styles = StyleSheet.create({
     article: {
@@ -80,9 +80,28 @@ const styles = StyleSheet.create({
     }
 });
 
+function getInitialState(item) {
+    const article = data.articles.find(article => article.id === item.id);
+    return {
+        likes: article.likes,
+        commentCount: article.commentCount
+    };
+}
+
 export default function Article({item})
 {
-    const [likes, setLikes] = useState(data.articles.find(article => article.id === item.id).likes);
+    const initialState = getInitialState(item);
+    const [likes, setLikes] = useState(initialState.likes);
+    const [isLiked, setIsLiked] = useState(false);
+    const [commentCount, setCommentCount] = useState(initialState.commentCount);
+    const [comment, setComment] = useState('');
+    
+    function handleComment(){
+        Alert.prompt('Leave a comment.', '', text => {
+            setComment(text);
+            setCommentCount(prevCommentCount => prevCommentCount + 1);
+        });
+    }
     return(
         <View style={styles.article}>
             <View style={styles.header}>
@@ -106,11 +125,18 @@ export default function Article({item})
                 <Image source={item.image} style={styles.image} />
                 <View style={styles.action} >
                     <View style={styles.actionLeft}>
-                        <TouchableOpacity style={styles.actionButton}>
-                            <Feather name='heart' size={24} />
+                        <TouchableOpacity style={styles.actionButton}
+                                          onPress={() => {
+                                              setIsLiked(!isLiked);
+                                              setLikes(isLiked ? prevLikes => prevLikes - 1 : prevLikes => prevLikes + 1);
+                                          }}
+                        >
+                            <AntDesign name={isLiked ? 'heart' : 'hearto'} color={isLiked ? 'red' : 'black'} size={24} />
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={styles.actionButton}>
+                        <TouchableOpacity style={styles.actionButton}
+                                            onPress={handleComment}
+                        >
                             <Feather name='message-circle' size={24} />
                         </TouchableOpacity>
 
@@ -130,8 +156,8 @@ export default function Article({item})
                     <Text style={styles.likes}>
                         {likes} likes
                     </Text>
-                    <Text style={styles.commentCount}>
-                        View all comments
+                    <Text style={styles.comments}>
+                        View all {commentCount} comments
                     </Text>
                 </View>
             </View>
